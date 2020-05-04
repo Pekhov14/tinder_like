@@ -1,5 +1,6 @@
 from selenium import webdriver
 from time import sleep
+import random
 
 from secrets import username, password
 
@@ -72,10 +73,15 @@ class TinderBot():
 		dislike_btn = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[2]/div[2]/button')
 		dislike_btn.click()
 
+	def random_click(self):
+		list = [0.5, 1, 1.5, 2, 2.5]
+		return random.choice(list)
+		
 	def auto_swipe(self):
 		while True:
-			sleep(0.5)
+			# sleep(1)
 			try:
+				sleep(self.random_click())
 				self.like()
 			except Exception:
 				try:
@@ -83,14 +89,20 @@ class TinderBot():
 				except Exception:
 					self.close_match()
 
-
 	def close_popup(self):
 		popup_3 = self.driver.find_element_by_xpath('//*[@id="modal-manager"]/div/div/div[2]/button[2]')
 		popup_3.click()
 
 	def close_match(self):
-		match_popup = self.driver.find_element_by_xpath('//*[@id="modal-manager-canvas"]/div/div/div[1]')
+		write_hello = self.driver.find_element_by_xpath('//*[@id="chat-text-area"]')
+		write_hello.send_keys('Привет)')
+
+		send_hello = self.driver.find_element_by_xpath('//*[@id="modal-manager-canvas"]/div/div/div[1]/div/div[3]/div[3]/form/button')
+		send_hello.click()
+
+		match_popup = self.driver.find_element_by_xpath('//*[@id="modal-manager-canvas"]/div/div/div[1]/div/div[3]/a')
 		match_popup.click()
 
 bot = TinderBot()
 bot.login()
+bot.auto_swipe()
