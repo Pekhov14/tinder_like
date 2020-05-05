@@ -24,7 +24,8 @@ class TinderBot():
 			print('Кликнул на google')
 		except:
 			print("Ошибка со входом через Google")
-			self.driver.close()
+			# self.driver.close()
+			self.login()
 
 		sleep(1)
 
@@ -95,7 +96,7 @@ class TinderBot():
 
 	def close_match(self):
 		write_hello = self.driver.find_element_by_xpath('//*[@id="chat-text-area"]')
-		write_hello.send_keys('Привет)')
+		write_hello.send_keys('Привет красотка)')
 
 		send_hello = self.driver.find_element_by_xpath('//*[@id="modal-manager-canvas"]/div/div/div[1]/div/div[3]/div[3]/form/button')
 		send_hello.click()
@@ -105,4 +106,5 @@ class TinderBot():
 
 bot = TinderBot()
 bot.login()
+sleep(5)
 bot.auto_swipe()
