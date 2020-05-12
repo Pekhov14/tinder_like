@@ -16,7 +16,7 @@ class TinderBot():
 		terms_use = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[2]/div/div/div[1]/button')
 		terms_use.click()
 		print('Убрал user соглашение')
-		sleep(2)
+		sleep(1)
 
 		try:
 			google_btn = self.driver.find_element_by_xpath('//*[@id="modal-manager"]/div/div/div/div/div[3]/span/div[1]/div/button')
@@ -24,16 +24,16 @@ class TinderBot():
 			print('Кликнул на google')
 		except:
 			print("Ошибка со входом через Google")
-			# self.driver.close()
-			self.login()
+			self.driver.close()
 
-		sleep(1)
+		sleep(2)
 
+		self.driver.implicitly_wait(20)
 		#переключиться на всплывающее окно ввода
 		base_window = self.driver.window_handles[0]
-		sleep(3)
+		sleep(2)
 		self.driver.switch_to_window(self.driver.window_handles[1])
-
+		sleep(1)
 		email_in = self.driver.find_element_by_xpath('//*[@id="identifierId"]')
 		email_in.send_keys(username)
 
@@ -41,6 +41,7 @@ class TinderBot():
 		next_btn.click()
 		sleep(1)
 
+		self.driver.implicitly_wait(10)
 		pw_btn = self.driver.find_element_by_xpath('//*[@id="password"]/div[1]/div/div[1]/input')
 		pw_btn.send_keys(password)
 
@@ -52,17 +53,20 @@ class TinderBot():
 
 		self.driver.implicitly_wait(10)
 		geo_yes = self.driver.find_element_by_xpath('//*[@id="modal-manager"]/div/div/div/div/div[3]/button[1]')
-		sleep(3)
+		sleep(1)
 		geo_yes.click()
 
 		self.driver.implicitly_wait(10)
 		notifications = self.driver.find_element_by_xpath('//*[@id="modal-manager"]/div/div/div/div/div[3]/button[2]')
 		notifications.click()
   
-		sleep(3)
-		self.driver.implicitly_wait(10)
-		change_location = self.driver.find_element_by_xpath('//*[@id="modal-manager"]/div/div/div[1]/button/span')
-		change_location.click()
+		try:
+			# sleep(3)
+			self.driver.implicitly_wait(10)
+			change_location = self.driver.find_element_by_xpath('//*[@id="modal-manager"]/div/div/div[1]/button/span')
+			change_location.click()
+		except Exception:
+			print("Окно сменить геолокацию не обнаружено")
 
 		print('Авторизация завершина')
 
@@ -95,8 +99,11 @@ class TinderBot():
 		popup_3.click()
 
 	def close_match(self):
+		words_hello = ["Привет красотка)", "Как дела?", "Хорошо выглядишь)", "Как насчет завтрака?)", "Го секс)"]
+		random_hello = random.choice(words_hello)
+
 		write_hello = self.driver.find_element_by_xpath('//*[@id="chat-text-area"]')
-		write_hello.send_keys('Привет красотка)')
+		write_hello.send_keys(random_hello)
 
 		send_hello = self.driver.find_element_by_xpath('//*[@id="modal-manager-canvas"]/div/div/div[1]/div/div[3]/div[3]/form/button')
 		send_hello.click()
@@ -106,5 +113,5 @@ class TinderBot():
 
 bot = TinderBot()
 bot.login()
-sleep(5)
+sleep(3)
 bot.auto_swipe()
