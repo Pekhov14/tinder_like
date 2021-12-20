@@ -1,3 +1,3 @@
 # tinder_like
 
-## Бот для автоайков в тиндере
+## This is a bot for swiping in tinder
